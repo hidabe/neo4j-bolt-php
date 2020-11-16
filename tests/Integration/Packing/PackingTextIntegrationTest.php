@@ -14,7 +14,7 @@ use PTS\Bolt\Tests\IntegrationTestCase;
  */
 class PackingTextIntegrationTest extends IntegrationTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->emptyDB();
@@ -52,14 +52,12 @@ class PackingTextIntegrationTest extends IntegrationTestCase
 
     /**
      * @group text32
-     * @group fail
      * @group stringx
      */
     public function testText32Packing()
     {
-        //$this->markTestSkipped("Neo4j3.0M02 has issues with 64 bits texts");
-        //$this->doRangeTest(65537, 65537);
-        //$this->doRangeTest(500000, 500000);
+        $this->doRangeTest(65537, 65537);
+        $this->doRangeTest(500000, 500000);
     }
 
     public function doRangeTest($min, $max)

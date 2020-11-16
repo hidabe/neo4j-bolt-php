@@ -35,7 +35,7 @@ class HandshakeIntegrationTest extends IntegrationTestCase
             $this->getConfig(),
             1
         );
-        $this->setExpectedException(\PTS\Bolt\Exception\HandshakeException::class);
+        $this->expectException(\PTS\Bolt\Exception\HandshakeException::class);
         $driver->session();
     }
 }

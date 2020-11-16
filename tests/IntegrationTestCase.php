@@ -6,7 +6,7 @@ use PTS\Bolt\Configuration;
 use PTS\Bolt\Driver;
 use PTS\Bolt\GraphDatabase;
 
-class IntegrationTestCase extends \PHPUnit_Framework_TestCase
+class IntegrationTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PTS\Bolt\Driver
@@ -16,7 +16,7 @@ class IntegrationTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $version = getenv('BOLT_VERSION') ? getenv('BOLT_VERSION') : 0;
         $this->driver = new Driver(
