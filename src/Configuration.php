@@ -20,6 +20,7 @@ use GraphAware\Common\Connection\BaseConfiguration;
 class Configuration extends BaseConfiguration implements ConfigInterface
 {
     const TLSMODE_REQUIRED = 'REQUIRED';
+    const TLSMODE_REQUIRED_NO_VALIDATION = 'REQUIRED_NO_VALIDATION';
     const TLSMODE_REJECTED = 'REJECTED';
 
     /**

@@ -13,6 +13,7 @@ namespace PTS\Bolt\IO;
 
 use PTS\Bolt\Configuration;
 use PTS\Bolt\Exception\IOException;
+use PTS\Bolt\Exception\SSLException;
 use PTS\Bolt\Misc\Helper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -222,15 +223,25 @@ class StreamSocket extends AbstractIO
                 $errstr
             ));
         }
-
+       
         if ($this->shouldEnableCrypto()) {
-            $result = stream_socket_enable_crypto(
-                $this->sock,
-                true,
-                STREAM_CRYPTO_METHOD_SSLv23_CLIENT
-            );
+            try {
+                if (!$this->shouldValidateTls()) {
+                    stream_context_set_option($this->context, 'ssl', 'allow_self_signed', true);
+                    stream_context_set_option($this->context, 'ssl', 'verify_peer', false);
+                    stream_context_set_option($this->context, 'ssl', 'verify_peer_name', false);
+                }
+                $result = stream_socket_enable_crypto(
+                    $this->sock,
+                    true,
+                    STREAM_CRYPTO_METHOD_SSLv23_CLIENT
+                );
+            } catch (\Exception $e) {
+                throw new SSLException(sprintf('Unable to enable crypto on socket: %s', $e->getMessage()));
+            }
+            
             if (true !== $result) {
-                throw new \RuntimeException(sprintf('Unable to enable crypto on socket'));
+                throw new SSLException(sprintf('Unable to enable crypto on socket'));
             }
         }
 
@@ -307,11 +318,23 @@ class StreamSocket extends AbstractIO
     public function shouldEnableCrypto()
     {
         if (null !== $this->configuration
-            && $this->configuration->getValue('tls_mode') === Configuration::TLSMODE_REQUIRED
+            && ($this->configuration->getValue('tls_mode') === Configuration::TLSMODE_REQUIRED || 
+            $this->configuration->getValue('tls_mode') === Configuration::TLSMODE_REQUIRED_NO_VALIDATION)
         ) {
             return true;
         }
 
         return false;
+    }
+
+    public function shouldValidateTls()
+    {
+        if (null !== $this->configuration
+            && $this->configuration->getValue('tls_mode') === Configuration::TLSMODE_REQUIRED_NO_VALIDATION
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }
