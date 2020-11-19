@@ -12,26 +12,19 @@
 namespace PTS\Bolt\Protocol\V1;
 
 use PTS\Bolt\Driver;
-use OutOfBoundsException;
 use PTS\Bolt\IO\AbstractIO;
 use PTS\Bolt\Protocol\Pipeline;
-use PTS\Bolt\Exception\IOException;
-use http\Exception\RuntimeException;
 use PTS\Bolt\Protocol\AbstractSession;
 use GraphAware\Common\Cypher\Statement;
 use PTS\Bolt\Protocol\PipelineInterface;
-use PTS\Bolt\Protocol\Message\RawMessage;
 use PTS\Bolt\Protocol\Message\RunMessage;
 use PTS\Bolt\Protocol\Message\InitMessage;
-use phpDocumentor\Reflection\Types\Boolean;
 use PTS\Bolt\Result\Result as CypherResult;
 use PTS\Bolt\Protocol\Message\PullAllMessage;
 use GraphAware\Common\Result\ResultCollection;
-use PTS\Bolt\Exception\SerializationException;
+use PTS\Bolt\Configuration;
 use PTS\Bolt\Protocol\Message\AbstractMessage;
 use PTS\Bolt\Exception\MessageFailureException;
-use RuntimeException as GlobalRuntimeException;
-use PTS\Bolt\Exception\BoltOutOfBoundsException;
 use PTS\Bolt\Protocol\Message\AckFailureMessage;
 use PTS\Bolt\Exception\BoltInvalidArgumentException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -51,6 +44,11 @@ class Session extends AbstractSession
     public $transaction;
 
     /**
+     * @var Configuration
+     */
+    protected $config;
+
+    /**
      * @var array
      */
     protected $credentials;
@@ -67,11 +65,12 @@ class Session extends AbstractSession
     public function __construct(
         AbstractIO $io,
         EventDispatcherInterface $dispatcher,
-        array $credentials = [],
+        Configuration $config = null,
         $init = true
     ) {
         parent::__construct($io, $dispatcher);
-        $this->credentials = $credentials;
+        $this->config = $config;
+        $this->credentials = $config ? $config->getValue('credentials', []) : [];
         if ($init) {
             $this->init();
         }

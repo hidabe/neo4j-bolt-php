@@ -14,7 +14,6 @@ namespace PTS\Bolt\IO;
 use PTS\Bolt\Configuration;
 use PTS\Bolt\Exception\IOException;
 use PTS\Bolt\Exception\SSLException;
-use PTS\Bolt\Misc\Helper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class StreamSocket extends AbstractIO
@@ -86,24 +85,15 @@ class StreamSocket extends AbstractIO
 
         $this->context = null !== $context ? $context : stream_context_create();
         $this->configuration = $configuration;
-
-        /*
-        if (is_null($this->context)) {
-            $this->context = stream_context_create();
-        } else {
-            $this->protocol = 'ssl';
-        }
-        */
-        //stream_set_blocking($this->sock, false);
     }
 
     public static function withConfiguration(
-        $host,
-        $port,
         Configuration $configuration,
         EventDispatcher $eventDispatcher = null
     ) {
         $context = null;
+        $host = $configuration->getValue('host');
+        $port = $configuration->getValue('port');
         $bindTo = $configuration->getValue('bind_to_interface');
         if (null !== $bindTo && 'null' !== $bindTo) {
             $context = stream_context_create([
@@ -121,7 +111,6 @@ class StreamSocket extends AbstractIO
      */
     public function write($data)
     {
-        //echo \PTS\Bolt\Misc\Helper::prettyHex($data) . PHP_EOL;
         $this->assertConnected();
         $written = 0;
         $len = mb_strlen($data, 'ASCII');
@@ -318,7 +307,7 @@ class StreamSocket extends AbstractIO
     public function shouldEnableCrypto()
     {
         if (null !== $this->configuration
-            && ($this->configuration->getValue('tls_mode') === Configuration::TLSMODE_REQUIRED || 
+            && ($this->configuration->getValue('tls_mode') === Configuration::TLSMODE_REQUIRED ||
             $this->configuration->getValue('tls_mode') === Configuration::TLSMODE_REQUIRED_NO_VALIDATION)
         ) {
             return true;
