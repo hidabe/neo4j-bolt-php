@@ -31,9 +31,9 @@ class HandshakeIntegrationTest extends IntegrationTestCase
             return;
         }
         $driver = new Driver(
-            $this->getBoltUrl(),
-            $this->getConfig(),
-            1
+            $this->getConfig()
+                ->withBoltVersion(1)
+                ->withUri($this->getBoltUrl())
         );
         $this->expectException(\PTS\Bolt\Exception\HandshakeException::class);
         $driver->session();

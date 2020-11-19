@@ -46,8 +46,6 @@ class PackingTextIntegrationTest extends IntegrationTestCase
         $this->doRangeTest(256, 356);
         $this->doRangeTest(1024, 1026);
         $this->doRangeTest(2048, 2050);
-        //$this->doRangeTest(16351, 16383);
-        //$this->doRangeTest(65500, 65535);
     }
 
     /**
