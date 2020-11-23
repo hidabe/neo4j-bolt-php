@@ -121,6 +121,12 @@ class Session extends AbstractSession
             } else {
                 $cypherResult->setStatistics([]);
             }
+            if (isset($pullMeta[0]->getElements()['db'])) {
+                $cypherResult->getSummary()->setDatabase($pullMeta[0]->getElements()['db']);
+            }
+            if (isset($pullMeta[0]->getElements()['bookmark'])) {
+                $cypherResult->getSummary()->setBookmark($pullMeta[0]->getElements()['bookmark']);
+            }
         }
 
         return $cypherResult;

@@ -8,16 +8,11 @@ use PTS\Bolt\Tests\IntegrationTestCase;
 use PTS\Bolt\Driver;
 
 /**
- * Class HandshakeIntegrationTest
- * @package PTS\Bolt\Tests\Integration
- *
  * @group integration
  * @group ssl
  */
 class SSLConnectionTest extends IntegrationTestCase
 {
-
-   
     public function testSSLConnectionWithoutValidation()
     {
         $config = $this->getConfig()->withTLSMode(Configuration::TLSMODE_REQUIRED_NO_VALIDATION);
@@ -32,15 +27,5 @@ class SSLConnectionTest extends IntegrationTestCase
         $this->setDriverWhithConfig($config);
         $this->expectException(\PTS\Bolt\Exception\SSLException::class);
         $this->getSession();
-    }
-
-    protected function setDriverWhithConfig(Configuration $config)
-    {
-        $version = getenv('BOLT_VERSION') ? getenv('BOLT_VERSION') : 0;
-        $this->driver = new Driver(
-            $this->getBoltUrl(),
-            $config,
-            (int)$version
-        );
     }
 }
