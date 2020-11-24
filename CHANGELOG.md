@@ -11,3 +11,5 @@
 - improved pipelines (now session sends all messages at once like it should)
 - added setting to use `TLSMODE_REQUIRED_NO_VALIDATION` for self signed certificates
 - fixed Time and DateTimeOffset type conversions
+- added ability to select database for Neo4j V4+
+- added ability to provide bookmarks for Neo4j V4+
