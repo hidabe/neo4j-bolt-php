@@ -42,6 +42,7 @@ class Configuration extends BaseConfiguration
             'password' => 'null',
             'bind_to_interface' => 'null',
             'timeout' => 5,
+            'bookmarks' => null,
             'credentials' => ['null', 'null'],
         ]);
     }
@@ -143,6 +144,16 @@ class Configuration extends BaseConfiguration
     public function withDatabase($database)
     {
         return $this->setValue('database', $database);
+    }
+
+    /**
+     * @param array $bookmarks
+     *
+     * @return Configuration
+     */
+    public function withBookmarks(array $bookmarks)
+    {
+        return $this->setValue('bookmarks', $bookmarks);
     }
 
 

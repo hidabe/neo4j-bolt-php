@@ -2,10 +2,7 @@
 
 namespace PTS\Bolt\Tests\Integration;
 
-use PTS\Bolt\Configuration;
-use PTS\Bolt\Protocol\SessionInterface;
 use PTS\Bolt\Tests\IntegrationTestCase;
-use PTS\Bolt\Driver;
 
 /**
  * @group integration
@@ -15,7 +12,7 @@ class MultiDBTest extends IntegrationTestCase
 {
     public function testDatabaseSelect()
     {
-        if ($this->getConfig()->getValue('version') < 4) {
+        if ($this->getConfig()->getValue('forced_bolt_version') < 4) {
             $this->markTestSkipped('Multidatabase feature only since V4+');
             return;
         }

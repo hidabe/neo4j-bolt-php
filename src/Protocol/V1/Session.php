@@ -49,6 +49,11 @@ class Session extends AbstractSession
     protected $config;
 
     /**
+     * @var string
+     */
+    protected $lastBookmark;
+
+    /**
      * @var array
      */
     protected $credentials;
@@ -82,6 +87,11 @@ class Session extends AbstractSession
     public static function getProtocolVersion()
     {
         return self::PROTOCOL_VERSION;
+    }
+
+    public function getLastBookmark(): string
+    {
+        return $this->lastBookmark;
     }
 
     /**
@@ -126,6 +136,7 @@ class Session extends AbstractSession
             }
             if (isset($pullMeta[0]->getElements()['bookmark'])) {
                 $cypherResult->getSummary()->setBookmark($pullMeta[0]->getElements()['bookmark']);
+                $this->lastBookmark = $pullMeta[0]->getElements()['bookmark'];
             }
         }
 

@@ -24,15 +24,15 @@ class IntegrationTestCase extends \PHPUnit\Framework\TestCase
     protected function getConfig()
     {
         $version = getenv('BOLT_VERSION') ? getenv('BOLT_VERSION') : 0;
-
         return (getenv('NEO4J_USER') ?
-            Configuration::create()->withCredentials(getenv('NEO4J_USER'), getenv('NEO4J_PASSWORD'))
+            Configuration::create()
+                ->withCredentials(getenv('NEO4J_USER'), getenv('NEO4J_PASSWORD'))
+                ->withBoltVersion($version)
             : Configuration::create())->withBoltVersion($version);
     }
 
     protected function setDriverWhithConfig(Configuration $config)
     {
-        $version = getenv('BOLT_VERSION') ? getenv('BOLT_VERSION') : 0;
         $this->driver = new Driver(
             $this->getBoltUrl(),
             $config

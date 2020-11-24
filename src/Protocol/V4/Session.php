@@ -24,6 +24,9 @@ class Session extends \PTS\Bolt\Protocol\V3\Session
         if ($this->config->getValue('database')) {
             $meta['db'] = $this->config->getValue('database');
         }
+        if ($this->config->getValue('bookmarks')) {
+            $meta['bookmarks'] = $this->config->getValue('bookmarks');
+        }
         return $meta;
     }
 
