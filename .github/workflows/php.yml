@@ -32,6 +32,9 @@ jobs:
           - 7687:7687
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
       
     - name: Start neo4j
       run: docker start ${{ job.services.neo4j.id }}
