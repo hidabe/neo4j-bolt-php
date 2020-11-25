@@ -32,12 +32,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Wait for neo4j to fail
-      run: while docker ps | grep ${{ job.services.neo4j.id }} ; do sleep 2 ; done
+      run: while docker ps | grep neo4j ; do sleep 2 ; done
       
     - name: Restart neo4j
       run: docker start ${{ job.services.neo4j.id }}
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+    
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
