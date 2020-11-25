@@ -32,14 +32,12 @@ jobs:
           - 7687:7687
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+
+    - name: Wait for neo4j to fail
+      run: while docker ps | grep ${{ job.services.neo4j.id }} ; do sleep 2 ; done
       
-    - name: Start neo4j
+    - name: Restart neo4j
       run: docker start ${{ job.services.neo4j.id }}
-      
-    
       
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -62,8 +60,8 @@ jobs:
     - name: Lint
       run: composer lint
     
-    - name: Log neo4j
-      run: docker logs ${{ job.services.neo4j.id }}
+    - name: Wait for neo4j to be ready
+      run: until docker exec ${{ job.services.neo4j.id }} wget -q -O - localhost:7474 > /dev/null ; do sleep 2; done 
     
     - name: Test
       env:
