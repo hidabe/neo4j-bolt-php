@@ -36,6 +36,9 @@ jobs:
     - name: Start neo4j
       run: docker start ${{ job.services.neo4j.id }}
       
+    - name: Log neo4j
+      run: docker logs ${{ job.services.neo4j.id }}
+      
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
