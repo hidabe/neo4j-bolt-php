@@ -23,7 +23,7 @@ class IntegrationTestCase extends \PHPUnit\Framework\TestCase
 
     protected function getConfig()
     {
-        $version = getenv('BOLT_VERSION') ? getenv('BOLT_VERSION') : 0;
+        $version = (int)(getenv('BOLT_VERSION') ? getenv('BOLT_VERSION') : 0);
         return (getenv('NEO4J_USER') ?
             Configuration::create()
                 ->withCredentials(getenv('NEO4J_USER'), getenv('NEO4J_PASSWORD'))
