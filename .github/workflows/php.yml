@@ -34,7 +34,7 @@ jobs:
     - uses: actions/checkout@v2
       
     - name: Start neo4j
-      run: docker start ${{ job.test.services.neo4j.id }}
+      run: docker start ${{ jobs.test.services.neo4j.id }}
       
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
