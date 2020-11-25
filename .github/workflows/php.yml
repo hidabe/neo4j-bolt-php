@@ -11,9 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.4']
-        neo4j-versions: ['4.1']
+        php-versions: ['7.2', '7.3', '7.4']
+        neo4j-versions: ['3.3', '3.4', '3.5', '4.0', '4.1']
         include:
+          - neo4j-versions: 3.3
+            bolt-version: 1
+          - neo4j-versions: 3.4
+            bolt-version: 2
+          - neo4j-versions: 3.5
+            bolt-version: 3
+          - neo4j-versions: 4.0
+            bolt-version: 4
           - neo4j-versions: 4.1
             bolt-version: 4
     services:

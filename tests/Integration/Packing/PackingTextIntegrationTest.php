@@ -51,6 +51,7 @@ class PackingTextIntegrationTest extends IntegrationTestCase
     /**
      * @group text32
      * @group stringx
+     * @group long
      */
     public function testText32Packing()
     {
