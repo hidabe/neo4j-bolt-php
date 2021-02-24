@@ -12,12 +12,7 @@
       "name": "Matas Valužis",
       "email": "matt@plumtreesystems.com",
       "role": "Maintainer"
-    },
-    {
-      "name": "Fernando Hidalgo",
-      "email": "hidabe@gmail.com",
-      "role": "Maintainer"
-    }    
+    }
   ],
   "require": {
     "php": ">=7.2",
